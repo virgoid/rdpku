@@ -2,7 +2,7 @@
 pushd "%userprofile%\Desktop\app"
 
 for %%I in (.) do set dirName=%%~nxI
-curl -i -H "Authorization: token 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 " -d "{\"name\": \"%dirName%\", \"auto_init\": \"true\", \"private\": \"false\" }" https://api.github.com/user/repos
+curl -i -H "Authorization: token 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 " -d "{\"name\": \"%dirName%\", \"auto_init\": \"true\", \"private\": \"false\" }" https://api.github.com/user/repos
 git init
 echo>placeholder.txt
 git add .
