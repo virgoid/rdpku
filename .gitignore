@@ -4,4 +4,4 @@
 telegram_nodejs/node_modules
 wa_nodejs/node_modules
 xampp
-!xampp\htdocs
+!xampp/htdocs
