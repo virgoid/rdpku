@@ -7,7 +7,7 @@ pushd "%userprofile%\Desktop\app"
 @REM echo>placeholder.txt
 git add .
 git commit -m "initial commit --auto"
-git remote add origin https://github.com/virgoid/%dirName%.git
+git remote add origin https://github.com/virgoid/rdpku1.git
 @REM git push -f --set-upstream origin master
 
 
