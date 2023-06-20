@@ -1,5 +1,5 @@
 
-@REM pushd "%userprofile%\Desktop\app"
+pushd "%userprofile%\Desktop\app"
 
 for %%I in (.) do set dirName=%%~nxI
 curl -i -H "Authorization: token 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 " -d "{\"name\": \"%dirName%\", \"auto_init\": \"true\", \"private\": \"false\" }" https://api.github.com/user/repos
