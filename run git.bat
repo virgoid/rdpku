@@ -19,7 +19,7 @@ git push -f --set-upstream origin master
 
 @REM git remote set-url origin https://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@github.com/virgoid/rdpku.git
 
- git push origin main
+@REM  git push origin main
 
 
 pause
