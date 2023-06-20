@@ -7,7 +7,7 @@ git init
 echo>placeholder.txt
 git add .
 git commit -m "initial commit --auto"
-@REM git remote add origin https://github.com/virgoid/%dirName%.git
+git remote add origin https://github.com/virgoid/%dirName%.git
 git push -f --set-upstream origin master
 
 
