@@ -1,17 +1,15 @@
-2023/06/19-20:25:45.715 9a8 Recovering log #133
-2023/06/19-20:25:45.813 9a8 Level-0 table #138: started
-2023/06/19-20:25:45.829 9a8 Level-0 table #138: 655158 bytes OK
-2023/06/19-20:25:45.829 9a8 Delete type=0 #133
-2023/06/19-20:25:45.829 9a8 Delete type=3 #131
-2023/06/19-20:25:47.332 49c Moved #138 to level-1 655158 bytes OK: files[ 0 1 3 0 0 0 0 ]
-2023/06/19-20:25:57.764 1260 Compacting 1@1 + 3@2 files
-2023/06/19-20:25:58.237 1260 Generated table #140@1: 65352 keys, 2260125 bytes
-2023/06/19-20:25:58.287 1260 Generated table #141@1: 14293 keys, 2171037 bytes
-2023/06/19-20:25:58.533 1260 Generated table #142@1: 111906 keys, 2268621 bytes
-2023/06/19-20:25:58.542 1260 Generated table #143@1: 4618 keys, 84283 bytes
-2023/06/19-20:25:58.542 1260 Compacted 1@1 + 3@2 files => 6784066 bytes
-2023/06/19-20:25:58.542 1260 compacted to: files[ 0 0 4 0 0 0 0 ]
-2023/06/19-20:25:58.543 1260 Delete type=2 #134
-2023/06/19-20:25:58.543 1260 Delete type=2 #135
-2023/06/19-20:25:58.543 1260 Delete type=2 #136
-2023/06/19-20:25:58.543 1260 Delete type=2 #138
+2023/06/19-20:32:43.283 1360 Recovering log #139
+2023/06/19-20:32:43.289 1360 Level-0 table #145: started
+2023/06/19-20:32:43.305 1360 Level-0 table #145: 105585 bytes OK
+2023/06/19-20:32:43.305 1360 Delete type=0 #139
+2023/06/19-20:32:43.305 1360 Delete type=3 #137
+2023/06/19-20:32:45.731 300 Moved #145 to level-1 105585 bytes OK: files[ 0 1 4 0 0 0 0 ]
+2023/06/19-20:32:55.110 1aec Compacting 1@1 + 2@2 files
+2023/06/19-20:32:55.262 1aec Generated table #147@1: 65732 keys, 2259421 bytes
+2023/06/19-20:32:55.417 1aec Generated table #148@1: 14319 keys, 2172100 bytes
+2023/06/19-20:32:55.709 1aec Generated table #149@1: 1 keys, 8830 bytes
+2023/06/19-20:32:55.709 1aec Compacted 1@1 + 2@2 files => 4440351 bytes
+2023/06/19-20:32:55.714 1aec compacted to: files[ 0 0 5 0 0 0 0 ]
+2023/06/19-20:32:55.714 1aec Delete type=2 #140
+2023/06/19-20:32:55.714 1aec Delete type=2 #141
+2023/06/19-20:32:55.714 1aec Delete type=2 #145
