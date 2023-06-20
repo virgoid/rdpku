@@ -3,6 +3,7 @@
 # dependencies
 telegram_nodejs/node_modules
 wa_nodejs/node_modules
+wa_nodejs/.wwebjs_auth/session
 xampp/*.*
 xampp/New folder
 xampp/apache
