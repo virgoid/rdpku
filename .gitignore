@@ -3,5 +3,23 @@
 # dependencies
 telegram_nodejs/node_modules
 wa_nodejs/node_modules
-xampp
-!xampp/htdocs
+xampp/*.*
+
+xampp/apache
+xampp/cgi-bin
+xampp/contrib
+xampp/FileZillaFTP
+#xampp/htdocs
+xampp/install
+xampp/licenses
+xampp/locale
+xampp/MercuryMail
+xampp/mysql
+xampp/perl
+xampp/php
+xampp/phpMyAdmin
+xampp/sendmail
+xampp/tmp
+xampp/tomcat
+xampp/webalizer
+xampp/webdav
