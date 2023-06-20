@@ -19,7 +19,7 @@ git remote add origin https://github.com/virgoid/%dirName%.git
 
 @REM git remote set-url origin https://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@github.com/virgoid/rdpku.git
 
- git push origin main
+ git push -u origin main
 
 
 pause
