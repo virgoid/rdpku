@@ -115,6 +115,35 @@ var myid = 6285244303838 ;
 const mydb="data_smk"
 const mycoll = "siswa"
 
+/////////////////////////////////////////////////////////
+let date_time = new Date();
+
+let date = ("0" + date_time.getDate()).slice(-2);
+
+// get current month
+let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
+
+// get current year
+let year = date_time.getFullYear();
+
+// get current hours
+let hours = date_time.getHours();
+
+// get current minutes
+let minutes = date_time.getMinutes();
+
+// get current seconds
+let seconds = date_time.getSeconds();
+
+// prints date in YYYY-MM-DD format
+console.log(year + "-" + month + "-" + date);
+
+// prints date & time in YYYY-MM-DD HH:MM:SS format
+const  date1 =(year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds);
+
+
+//////////////////////////////////////////////////////////
+
 
 function upload(id) { 
   MongoClient.connect(url, function(err, db) {
@@ -135,18 +164,147 @@ function upload(id) {
 
 client.on('message', msg => {
   const conten = msg.body.toLowerCase();
+  const content = msg.body
   console.log(conten)
  
   const  key = conten.split(' ')[0];
   const  key1 = conten.split(' ')[1];
   const  key2 = conten.split(' ')[2];
-  const  key21 = msg.body.split(' ')[2];
-  const  key3 = conten.split(' ')[3];
-  const  key31 = msg.body.split(' ')[3];
+  const  keya = content.split(' ')[0];
+  const  keyb = content.split(' ')[1];
+  const  keyc = content.split(' ')[2];
   const NHP = msg.from.split('@')[0]; 
+  const  key0 = conten.split('*')[0]
+  // console.log(`KEY i ${key}`)
+  // console.log(`KEY  ${key})`)
+  // console.log(`KEY @ ${key})`)
 
   if (conten == 'ping') {
     msg.reply('pong');
+  }else if (key0 == 'tugas') {
+    // console.log(key)
+    
+    const  tgs = content.split('*')[0];
+    const  tgs1 = content.split('*')[1];
+    const  tgs2 = content.split('*')[2];
+    const  tgs3 = content.split('*')[3];
+    const  tgs4 = content.split('*')[4];
+    const  tgs5 = content.split('(')[5];
+    
+    console.log(`tugas1 ${tgs1}`)
+    console.log(`tugas2 ${tgs2}`)
+    console.log(`tugas3 ${tgs3}`)
+    console.log(`tugas4 ${tgs4}`)
+    console.log(`tugas5 ${tgs5}`)
+
+    if (tgs1 == undefined){
+      msg.reply(`tugas*<kelas>*<pelajaran>*<nmtugas>*<nmguru>`);
+      return false
+    }else{
+        
+          // var tgs1 = 'Suci'
+          // var key01= key2.toUpperCase()
+          var keyRG = RegExp(tgs1,"i")
+          
+          // var keyRG = RegExp("^"+key2+"$","g")
+          console.log(keyRG)
+          // var key1 = 133
+          MongoClient.connect(url, function (err, clie) {
+            
+          var db = clie.db("data_smk");
+          var query = {NHP : NHP};
+              db.collection("guru").find(query).toArray(function (err, docs) {
+                    //  console.log(docs); 
+                      if (!docs.length >= 1){console.log('belum terdaftar');}else{
+
+             var idg =docs['0']["ids"]
+             console.log(idg)
+              MongoClient.connect(url, function(err, cdb) {    
+              var db = cdb.db("data_smk");
+              var collection = db.collection("siswa");
+              
+              var query = {kelas : tgs1};
+              // var query = { nama :  {$regex: keyRG }};
+              var projection = {};   
+              // var projection = {};   
+              var cursor = collection.find(query).project(projection);
+
+            
+
+
+
+              db.collection("siswa").find(query).toArray(function(err, result) {
+                // if (err) throw err;
+              ////////////////////////////////////////////////////
+                // console.log(result[0].ID);
+                // console.log(result.length);
+                // console.log(result);
+          
+                
+          if (!result.length >= 1){ console.log("kelas belum terdaftar")
+          msg.reply(`kelas tidak terdaftar `)
+        }else{
+              //  console.log(result)
+
+              //  return false
+               
+                console.log('kelas terdaftar')
+
+              
+
+              cursor.forEach(
+                  function(doc) {
+                     console.log(doc['ids']);
+                    //  console.log(doc['nama']);
+                     var ids = doc['ids']
+                     var nama = doc['nama']
+                    //  var kelas = doc['ids']
+                  ///////////////////////////////////////////////////////
+                 
+
+                    MongoClient.connect(url, function(err, db) {
+                      if (err) throw err;
+                      var dbo = db.db("data_smk");
+                      var myobj =  {
+                        ids: ids,
+                        idg: idg,
+                        nama: nama,
+                        kelas: tgs1,
+                        namaTugas: tgs3,
+                        pelajaran: tgs2,
+                        NamaGuru: tgs4,
+                        date: date1,
+                        selesai: 0
+                      };
+                      dbo.collection("tugas").insertOne(myobj, function(err, res) {
+                        if (err) throw err;
+                        // console.log("1 document inserted");
+                        db.close();
+                      });
+                    });
+              
+                  /////////////////////////////////////////////////////////
+    
+                  }, 
+                  function(err) {
+                      cdb.close();
+                  }
+              );
+
+                // })
+
+
+
+              // msg.reply(`kelas ${tgs1},sudah " ${result.length}" dibuat tugas `)
+              client.sendMessage(msg.from,`kelas ${tgs1},sudah " ${result.length}" dibuat tugas baru `)
+                
+                }
+                   });
+      })}
+
+    })
+  })
+    }
   } else if (key == 's') {
      MongoClient.connect(url, function(err, db) {
         // if (err) throw err;
@@ -297,7 +455,7 @@ console.log('anda sudah update');
   // console.log(media1);
   // client.sendMessage(msg.from, media1,{caption: 'image' });
   // chat.sendMessage(media1, {caption: 'this is my caption'}
-  MongoClient.connect(url, function (err, client2) {   //user .find({ID:myid})
+      MongoClient.connect(url, function (err, client2) {   //user .find({ID:myid})
       var db = client2.db('data_smk');
       var query = { NHP : NHP };
       var selext = { _id: 1,  NHP: 1, ID  : 1,nis: 1 , nama  : 1, kelas :1 , alamat :1};
@@ -388,7 +546,7 @@ console.log('anda sudah update');
             
               if (key1 == undefined || key2 == undefined){
                 msg.reply(` reset wa <ids>\nreset telg <ids>`);
-                // ctx.reply(` ${key}\nnama= \nkelas= \njurusan= \njurusan= \nalamat= \nemail= \ngrup=A`);
+                // msg.reply(` ${key}\nnama= \nkelas= \njurusan= \njurusan= \nalamat= \nemail= \ngrup=A`);
                 return false
             }else if(key1 == 'wa'){
 
@@ -541,64 +699,6 @@ fs.readdir("./", (err, files) => {
    
 
 }})});  //user .find({ID:myid}) 
-  }else if (conten == 'tugas') {
-            
-    MongoClient.connect(url, function(err, db) {
-      // if (err) throw err;
-      var dbo = db.db(mydb);
-      var query = { NHP : NHP };
-      dbo.collection("siswa").find(query).toArray(function(err, result) {
-        // if (err) throw err;
-      ////////////////////////////////////////////////////
-        // console.log(result[0].ID);
-        // console.log(result.length);
-        // console.log(result);
-  
-        
-  if (result.length >= 1){
-    const ids =result[0].ids
-        const id =result[0].ID
-        const nama =result[0].nama
-        const urldoc =result[0].url_doc
-        const nohp =result[0].NHP
-        const setNHP =result[0].setNHP
-        const setID =result[0].setID
-  
-
-var request = require('request');
-var options = {
-  'method': 'POST',
-  'url': "http://localhost:8000/send-media",
-  'headers': {
-  },
-  formData: {
-    'number': NHP,
-    'caption': 'caption',
-    'file': urldoc
-  }
-};
-request(options, function (error, response) {
-  if (error) throw new Error(error);
-  console.log(response.body.status);
-});
-
-
-
-
-/////////////////////////////////////////////////////////////
-console.log('anda sudah terdaftar');
-    } else{
-client.sendMessage(msg.from,'Maaf ,anda belum terdaftar')
-//          console.log('MESSAGE RECEIVED', msg.body);
-console.log('anda belum terdaftar');
-// client.sendMessage(msg.from, 'anda sudah terdaftar');
-  }
-       ////////////////////////////////////////////////////////////////////
-  
-        db.close();
-      });
-     
-    });
   }else if (key == 'soal') {
             
     if (key1 == undefined){
@@ -992,7 +1092,7 @@ console.log('anda belum terdaftar');
 
           if (key1 == undefined || key2 == undefined){
             msg.reply(` regs <ids> <token>`);
-            // ctx.reply(` ${key}\nnama= \nkelas= \njurusan= \njurusan= \nalamat= \nemail= \ngrup=A`);
+            // msg.reply(` ${key}\nnama= \nkelas= \njurusan= \njurusan= \nalamat= \nemail= \ngrup=A`);
             return false
           }      
   MongoClient.connect(url, function (err, clie) { 
@@ -1136,8 +1236,8 @@ console.log('anda belum terdaftar');
     if ( key1 == "kelas"){
 
           // var key2 = 'tkr'
-          var key01= key21.toUpperCase()
-          var keyRG = RegExp(key01,"i")
+          // var key01= key21.toUpperCase()
+          var keyRG = RegExp(key21,"i")
           
           // var keyRG = RegExp("^"+key2,"g")
           console.log(keyRG)
@@ -1200,7 +1300,7 @@ console.log('anda belum terdaftar');
           // var key01= key2.toUpperCase()
           var keyRG = RegExp(key21,"i")
           
-          // var keyRG = RegExp("^"+key2,"g")
+          // var keyRG = RegExp("^"+key2+"$","g")
           console.log(keyRG)
             MongoClient.connect(url, function(err, db) {  
               if (err) throw err;
@@ -1232,7 +1332,7 @@ console.log('anda belum terdaftar');
 
     // var key21 = 'Suci'
           // var key01= key2.toUpperCase()
-          var keyRG = RegExp(key21,"g")
+          var keyRG = RegExp(key21,"i")
           
           // var keyRG = RegExp("^"+key2,"g")
           console.log(keyRG)
@@ -1260,13 +1360,202 @@ console.log('anda belum terdaftar');
               }
           })})
         
+          } else if (key1 =="?"){
+        msg.reply(
+          
+`
+[] -> dal[ae]m, --> dalem dan dalam.\n
+(),->  ^(www.)?domain$ --> www.domain dan domain saja.\n
+| , ATAU -> ayam|anjing|kucing  ayam,anjing,kucing saja\n
+^ -> awal kalimat\n
+$ -> akhir kalimat\n
+======================\n
+fungsi kebalikan (negate)\n
+\D : match non digit character [^\d]\n
+\W : match non word character [^\w\n
+\S : match non whitepsace character [^\s\n
+=========================
+* : ulangi item sebelumnya 0 kali atau beberapa kali\n
++ : ulangi item sebelumnya minimal 1 kali atau lebih\n
+? : Membuat item sebelumnya menjadi Optional\n
+{n} : ulangi item sebelumnya sebanyak n kali\n
+{n,} : ulangi item sebelumnya minimal sebanyak n kali atau lebih\n
+{n,m} : ulangi item minimal n kali, maksimal m kali\
+=================================\n
+\d : digits only atau [0-9]\n
+\w : words only / alphanumeric dan underscore [A-Za-z0-9_]\n`+
+"\s : whitespace / spasi, tab, line break, atau form feed [ \t\r\n\f]"
+
+        )
+
+
           }
   }else if ( conten == "menu")
   {
     msg.reply(`menu : \nceks,qrs,reset_,tugas,soal_\njawab_,hasil,media_,token_,regs_\nsend_,cari_`);
-    
+  // }else if (key == 'tugas') {
+   
+ 
+  }else if (key == 'tugasku') {
 
+  
+  // const media1 = MessageMedia.fromFilePath('./qrcode1/'+ids+'.jpg');
+  // console.log(media1);
+  // client.sendMessage(msg.from, media1,{caption: 'image' });
+  // chat.sendMessage(media1, {caption: 'this is my caption'}
+  MongoClient.connect(url, function (err, client2) {   //user .find({ID:myid})
+      var db = client2.db('data_smk');
+      var query = { NHP : NHP };
+      var selext = {};
+      db.collection('siswa').find((query), { projection: (selext)  }).toArray(function(err, docs) {
+        // var cursor = collection('siswa').find((query), { projection: (selext)  })
+        // db.collection("user").find({ID:ID}).toArray(function (err, docs) {
+          // console.log(docs); 
+          if (!docs.length >= 1){console.log('belum terdaftar');}else{
+              // console.log(docs)
+              const nama = docs['0']['nama'];
+              const kelas = docs['0']['kelas'];
+              const alamat = docs['0']['alamat'];
+              const ket = docs['0']['ket'];
+              const ID = docs['0']['ID'];
+              const ids = docs['0']['ids'];
+              console.log('terdaftar')
+              //////////////////////////////////////////////////
+              console.log('kelas terdaftar')
+
+
+
+              var mongodb = require("mongodb");
+
+              var client31 = mongodb.MongoClient;
+              
+              
+              client31.connect(url, function (err, client32) {
+                  
+                  var db = client32.db("data_smk");
+                  var collection = db.collection("tugas");
+                  
+                  var query = {
+                      "ids": ids , "selesai": 0
+                  };
+                  
+                  var cursor = collection.find(query);
+                  
+                  cursor.forEach(
+                      function(doc) {
+                          console.log(`pel:${doc["pelajaran"]}, Tugas:${doc["namaTugas"]}, Guru:${doc["NamaGuru"]}, tanggal:${doc["date"]}`);
+                          // msg.reply (`pel:${doc["pelajaran"]}, Tugas:${doc["namaTugas"]}, Guru:${doc["NamaGuru"]}, tanggal:${doc["date"]}`);
+                          client.sendMessage(msg.from,`pel:${doc["pelajaran"]}, Tugas:${doc["namaTugas"]}, Guru:${doc["NamaGuru"]}, tanggal:${doc["date"]}`)
+
+                      }, 
+                      function(err) {
+                          // client.close();
+                      }
+                  );
+                  
+                  // Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+                  
+              });
+
+
+
+
+          }});});  //user .find({ID:myid}) 
+
+
+}else if (key == 'daftar') {
+
+  if (key1 == undefined){
+    msg.reply(`daftar <nama> <sekolah>`);
+    return false
+  }                                                                                                                                                                                            
+
+
+  MongoClient.connect(url, function(err, db) {
+    // if (err) throw err;
+    var dbo = db.db(mydb);
+    var query = {NHP:NHP  };
+    var sort = {};
+    dbo.collection("daftar").find(query).sort(sort).toArray(function(err, result) {
+            // console.log(result[0].ID);
+      console.log(result.length);
+      // console.log(result);
+  
+  ////////////////terdaftar ////////////////////////////    
+  // if (result.length >= 1){
+  //   console.log("sudh terdftr");
+  //   msg.reply("ANDA SIDAH TERDAFTAR")
+  // }else{
+  /////////////////////////////////////////
+
+  MongoClient.connect(url, function(err, db) {
+    // if (err) throw err;
+    var dbo = db.db(mydb);
+    var query = {  };
+    var sort = { "no": -1 };
+    dbo.collection("daftar").find(query).sort(sort).toArray(function(err, result) {
+            // console.log(result[0].ID);
+      console.log(result.length);
+      // console.log(result);
+  
+      
+  if (!result.length >= 1){
+    console.log(result.length);
+
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db(mydb);
+      var myobj =  {
+        no: 1,
+        NHP: NHP,
+        nama: key1,
+        kelas: key2,
+       
+      };
+      dbo.collection("daftar").insertOne(myobj, function(err, res) {
+        if (err) throw err;
+        console.log("1 document inserted");
+        msg.reply("terim kasih sudah terdaftar")
+        db.close();
+      });
+    });
+
+  }else{
+  // const ids =result[0].ids
+      var no =result[0].no
+  const nomor =  no+1  
+     MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db(mydb);
+      var myobj =  {
+        no: nomor,
+        NHP: NHP,
+        nama: key1,
+        kelas: key2,
+       
+      };
+      dbo.collection("daftar").insertOne(myobj, function(err, res) {
+        if (err) throw err;
+        console.log("1 document inserted");
+        msg.reply("terim kasih sudah terdaftar")
+        db.close();
+      });
+    });
   }
+    
+        db.close();
+    });
+    });
+  
+// }////TERDAFTAR
+})})}
+////////////////////////////////////////////////////////////
+
+
+
+
+
+
 
 
 

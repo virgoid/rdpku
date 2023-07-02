@@ -7,7 +7,6 @@
     "test": "node app.js",
     "start": "node app.js",
     "nodemon": "nodemon  app.js"
-
   },
   "author": "",
   "license": "ISC",
@@ -20,14 +19,11 @@
     "mongodb": "^4.12.1",
     "mongoose": "^7.0.0",
     "node-telegram-bot-api": "^0.60.0",
-    "nodemon": "^2.0.20",
+    "nodemon": "^2.0.22",
     "qrcode": "^1.5.1",
     "telegraf": "^4.10.0"
   },
   "dependencies": {
-   
     "qr-with-logo": "^1.0.5"
-    
- 
   }
 }
